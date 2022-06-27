@@ -1,0 +1,44 @@
+<form>
+    <div class="mb-3">
+        <!--Song Fav-->
+        <div class="d-flex flex-row align-items-baseline mb-3">
+            <label for="SongFav" class="form-check-label col-3">Favorite</label>
+            <div>
+            <input type="checkbox" class="form-check-input" name="SongFav" id="SongFav" [(ngModel)]="SongFav"
+                #favV="ngModel">
+            </div>
+        </div>
+        <!--Song Artists-->
+        <div class="d-flex flex-row align-items-baseline mb-3">
+            <label for="SongArtist" class="form-label col-3">Artist</label>
+            <select required class="form-control" name="SongArtistId" id="SongArtistId" [(ngModel)]="artistNg"
+                #artistV="ngModel">
+                <option *ngFor="let item of ArtistsList" [ngValue]="item">{{item}}</option>
+            </select>
+        </div>
+        <!--Song Category-->
+        <div class="d-flex flex-row align-items-baseline mb-3">
+            <label for="SongCategory" class="form-label col-3">Category</label>
+            <select required class="form-control" name="SongCategoryId" id="SongCategoryId" [(ngModel)]="categoryNg"
+                #CategoryV="ngModel">
+                <option *ngFor="let item of SongCategoriesList" [ngValue]="item">{{item.name}}</option>
+            </select>
+        </div>
+        <!--Song Rating-->
+        <div class="d-flex flex-row align-items-baseline mb-3">
+            <label for="SongRating" class="form-label col-3">Rating >=</label>
+            <input type="number" class="form-control" [(ngModel)]="SongRating" name="SongRating" id="SongRating"
+                min="1" max="5" #fRatingV="ngModel">
+        </div> 
+        <p *ngIf="(fRatingV.invalid && (fRatingV.dirty || fRatingV.touched))" class="text-danger"> 
+            *Rating must be between 1 and 5.
+        </p>
+        <div class="d-flex justify-content-center">
+            <button [disabled]="fRatingV.invalid || !(favV.dirty || artistV.dirty || CategoryV.dirty || fRatingV.dirty)"
+                (click)="apply()" class="btn btn-primary" type="button">
+                Apply
+            </button> 
+        </div>
+    </div>
+</form>
+

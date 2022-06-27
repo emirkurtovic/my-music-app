@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <div class="container">
+    <a class="navbar-brand" routerLink="">My Music App</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item" *ngIf="loggedIn===true">
+          <a class="nav-link" aria-current="page" routerLink="" routerLinkActive="active">Home</a>
+        </li>
+        <li class="nav-item" *ngIf="loggedIn===true">
+          <a class="nav-link" routerLink="dashboard/add-song" routerLinkActive="active">Add Song</a>
+        </li>
+      </ul>
+      <form class="d-flex" *ngIf="loggedIn===false">
+        <button class="btn btn-outline-secondary" type="button" (click)="loginModal(template)">Login</button>
+        <button class="btn btn-outline-primary" type="button" (click)="registerModal(template)">Register</button>
+      </form>
+      <p class="mb-2 me-2 mb-md-0" style="color:white" *ngIf="loggedIn===true">Welcome, {{username}}</p>
+      <button class="d-flex btn btn-outline-primary" type="submit" (click)="logout()" *ngIf="loggedIn===true">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<!--Register-Login modal-->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title">{{ModalTitle}}</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-register-login [childComponentLogin]="childComponentLogin" (openedEvent)="closeModal($event)"></app-register-login>
+  </div>
+</ng-template>
