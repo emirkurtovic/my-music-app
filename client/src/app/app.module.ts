@@ -13,6 +13,7 @@ import { RegisterLoginComponent } from './nav/register-login/register-login.comp
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { CommonModule } from '@angular/common';
+import { NgxNavbarModule } from 'ngx-bootstrap-navbar';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     BrowserAnimationsModule, // required animations module,
     ToastrModule.forRoot({positionClass: "toast-bottom-right"}), // ToastrModule added,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    NgxNavbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
