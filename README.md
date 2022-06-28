@@ -1,4 +1,4 @@
-# MyMusicAppAngular
+# My Music App
 
 My Music App is a web application used for songs management. Backend: ASP.NET 6 Web API. Frontend: Angular 13.
 
