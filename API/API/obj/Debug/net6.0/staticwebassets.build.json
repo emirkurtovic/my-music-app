@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+AUnmGNxWl/uz3W5CfATp8uorRrkBnMzrvy8xdmDn2w=",
+  "Hash": "j2wYshF34y0InqVtV5W/ZdnrL0wxV8UHRuWSFei5kUA=",
   "Source": "API",
   "BasePath": "_content/API",
   "Mode": "Default",
@@ -34,12 +34,12 @@
       "OriginalItemSpec": "wwwroot\\3rdpartylicenses.txt"
     },
     {
-      "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\824.2c4da2035a12854b.js",
+      "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\879.ce7b80fada9fabaf.js",
       "SourceId": "API",
       "SourceType": "Discovered",
       "ContentRoot": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\",
       "BasePath": "_content/API",
-      "RelativePath": "824.2c4da2035a12854b.js",
+      "RelativePath": "879.ce7b80fada9fabaf.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -48,7 +48,41 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\824.2c4da2035a12854b.js"
+      "OriginalItemSpec": "wwwroot\\879.ce7b80fada9fabaf.js"
+    },
+    {
+      "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\assets\\b1.jpg",
+      "SourceId": "API",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\",
+      "BasePath": "_content/API",
+      "RelativePath": "assets/b1.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\b1.jpg"
+    },
+    {
+      "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\b1.13091c813ef33755.jpg",
+      "SourceId": "API",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\",
+      "BasePath": "_content/API",
+      "RelativePath": "b1.13091c813ef33755.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\b1.13091c813ef33755.jpg"
     },
     {
       "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\favicon.ico",
@@ -85,12 +119,12 @@
       "OriginalItemSpec": "wwwroot\\index.html"
     },
     {
-      "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\main.6de91f8537e63dd8.js",
+      "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\main.973ec8bf4c54403a.js",
       "SourceId": "API",
       "SourceType": "Discovered",
       "ContentRoot": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\",
       "BasePath": "_content/API",
-      "RelativePath": "main.6de91f8537e63dd8.js",
+      "RelativePath": "main.973ec8bf4c54403a.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -99,7 +133,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\main.6de91f8537e63dd8.js"
+      "OriginalItemSpec": "wwwroot\\main.973ec8bf4c54403a.js"
     },
     {
       "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\polyfills.c37d5dc6edc1b20e.js",
@@ -119,12 +153,12 @@
       "OriginalItemSpec": "wwwroot\\polyfills.c37d5dc6edc1b20e.js"
     },
     {
-      "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\runtime.a10eecb2783f312f.js",
+      "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\runtime.e21a7292c5273173.js",
       "SourceId": "API",
       "SourceType": "Discovered",
       "ContentRoot": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\",
       "BasePath": "_content/API",
-      "RelativePath": "runtime.a10eecb2783f312f.js",
+      "RelativePath": "runtime.e21a7292c5273173.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -133,7 +167,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\runtime.a10eecb2783f312f.js"
+      "OriginalItemSpec": "wwwroot\\runtime.e21a7292c5273173.js"
     },
     {
       "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\styles.fa74d77339736b10.css",

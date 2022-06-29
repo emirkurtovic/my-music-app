@@ -1,0 +1,16 @@
+div{
+    background-image: url("../../assets/b1.jpg");
+    height: calc(100vh - 56px);
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+h1 {
+    padding-top: 200px;
+    color: white;
+}
+
+h3{
+    color: white;
+}

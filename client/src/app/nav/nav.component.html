@@ -26,13 +26,13 @@
 
 <!--Register-Login modal-->
 <ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title">{{ModalTitle}}</h4>
+  <div class="modal-header bg-dark">
+    <h4 class="modal-title text-white">{{ModalTitle}}</h4>
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body bg-dark">
     <app-register-login [childComponentLogin]="childComponentLogin" (openedEvent)="closeModal($event)"></app-register-login>
   </div>
 </ng-template>

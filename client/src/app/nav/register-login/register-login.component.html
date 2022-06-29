@@ -2,8 +2,8 @@
     <div class="mb-3">
         <!--User name-->
         <div class="mb-3">
-            <label for="username" class="form-label">Name</label>
-            <input type="text" class="form-control" name="username" id="username" [(ngModel)]="username"
+            <label for="username" class="form-label text-white">Name</label>
+            <input type="text" class="form-control bg-dark text-white" name="username" id="username" [(ngModel)]="username"
             required minlength="4" maxlength="20" pattern="^[a-zA-Z0-9]+$" #usernameV="ngModel">
             <p *ngIf="usernameV.invalid && (usernameV.dirty || usernameV.touched)" class="text-danger"> 
                 *Username must contain between 4 and 20 characters (letters and numbers).
@@ -11,8 +11,8 @@
         </div>
         <!--User password-->
         <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" name="password" id="password" [(ngModel)]="password"
+            <label for="password" class="form-label text-white">Password</label>
+            <input type="password" class="form-control bg-dark text-white" name="password" id="password" [(ngModel)]="password"
              required minlength="4" maxlength="25" pattern="^[a-zA-Z0-9%~!@#=&_:;,`\$\^\*\+\|]+$" #passwordV="ngModel">
              <p *ngIf="passwordV.invalid && (passwordV.dirty || passwordV.touched)" class="text-danger"> 
                 *Password must contain between 4 and 25 characters (letters, numbers and special 
@@ -32,5 +32,3 @@
         </div>
     </div>
 </form>
-
-

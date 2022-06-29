@@ -33,12 +33,17 @@ export class AddEditSongComponent implements OnInit {
   
   sub!: Subscription;
   sub2!:Subscription;
+  
+  currentStyles: Record<string, string> = {};
+  currentClasses: Record<string, boolean> = {};
   ////////////////////
 
   
   constructor(private service: MymusicApiService, private router: Router, private toastService: ToastrService) { }
 
   ngOnInit(): void {
+    this.setCurrentStyles();
+    this.setCurrentClasses();
     if(this.childComponentAdd===false){
       //console.log(this.SelectedSong);
       this.SongId=this.SelectedSong.song.id;
@@ -123,5 +128,21 @@ export class AddEditSongComponent implements OnInit {
         this.toastService.error(err.error);
       }
     });
+  }
+
+  setCurrentStyles() {
+    // CSS styles: set per current state of component properties
+    this.currentStyles = {
+      'padding-top':  this.childComponentAdd===true? '100px' : 'initial',
+      'height': this.childComponentAdd===true? 'calc(100vh - 56px)' : 'initial'
+    };
+  }
+
+  setCurrentClasses() {
+    // CSS classes: added/removed per current state of component properties
+    this.currentClasses =  {
+      'bg-dark': this.childComponentAdd,
+      'bg-gradient':  this.childComponentAdd
+    };
   }
 }

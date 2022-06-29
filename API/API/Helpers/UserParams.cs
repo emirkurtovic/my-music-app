@@ -16,7 +16,7 @@ namespace API.Helpers
         [StringLength(200)]
         public string artist { get; set; }
 
-        [StringLength(20)]
+        [StringLength(50)]
         public string category { get; set; }
 
         [Range(1, 5)]

@@ -1,82 +1,86 @@
-<h4 *ngIf="childComponentAdd===true">Add Song</h4>
-<form [ngClass]="childComponentAdd?'col-md-6 mt-3':''">
-    <div class="mb-3">
-        <!--Song Name-->
-        <div class="d-flex flex-row align-items-baseline mb-3">
-            <label for="SongName" class="form-label col-3">Name</label>
-            <input type="text" class="form-control" [(ngModel)]="SongName" name="SongName" id="SongName"
-                required maxlength="200" #nameV="ngModel">
-        </div>
-        <p *ngIf="nameV.invalid && (nameV.dirty || nameV.touched)" class="text-danger"> 
-            *Name must contain between 1 and 200 characters.
-        </p>
-        <!--Song Fav-->
-        <div class="d-flex flex-row align-items-baseline mb-3">
-            <label for="SongFav" class="form-check-label col-3">Favorite</label>
-            <div>
-            <input type="checkbox" class="form-check-input" name="SongFav" id="SongFav" [(ngModel)]="SongFav"
-                #favV="ngModel">
+<div [ngClass]="currentClasses" [ngStyle]="currentStyles">
+    <div [ngClass]="this.childComponentAdd ? 'container' : ''">
+    <h4 *ngIf="childComponentAdd===true" class="text-light">Add Song</h4>
+    <form [ngClass]="childComponentAdd?'col-md-6 mt-3':''">
+        <div class="mb-3">
+            <!--Song Name-->
+            <div class="d-flex flex-row align-items-baseline mb-3">
+                <label for="SongName" class="form-label col-3 text-white">Name</label>
+                <input type="text" class="form-control bg-dark text-white" [(ngModel)]="SongName" name="SongName" id="SongName"
+                    required maxlength="200" #nameV="ngModel">
+            </div>
+            <p *ngIf="nameV.invalid && (nameV.dirty || nameV.touched)" class="text-danger"> 
+                *Name must contain between 1 and 200 characters.
+            </p>
+            <!--Song Fav-->
+            <div class="d-flex flex-row align-items-baseline mb-3">
+                <label for="SongFav" class="form-check-label col-3 text-white">Favorite</label>
+                <div>
+                <input type="checkbox" class="form-check-input bg-dark" style="border-color:white" name="SongFav" id="SongFav" [(ngModel)]="SongFav"
+                    #favV="ngModel">
+                </div>
+            </div>
+            <!--Song Artist-->
+            <div class="d-flex flex-row align-items-baseline mb-3">
+                <label for="SongArtist" class="form-label col-3 text-white">Artist</label>
+                <input type="text" class="form-control bg-dark text-white" [(ngModel)]="SongArtist" name="SongArtist" id="SongArtist"
+                    required maxlength="200" #artistV="ngModel">
+            </div>
+            <p *ngIf="artistV.invalid && (artistV.dirty || artistV.touched)" class="text-danger"> 
+                *Name must contain between 1 and 200 characters.
+            </p>
+            <!--Song Category-->
+            <div class="d-flex flex-row align-items-baseline mb-3">
+                <label for="SongCategory" class="form-label col-3 text-white">Category</label>
+                <select required class="form-control bg-dark text-white" name="SongCategoryId" id="SongCategoryId" [(ngModel)]="categoryNg"
+                    #CategoryV="ngModel">
+                    <option *ngFor="let item of SongCategoriesList" [ngValue]="item">{{item.name}}</option>
+                </select>
+            </div>
+            <p *ngIf="CategoryV.invalid && (CategoryV.dirty || CategoryV.touched)" class="text-danger"> 
+                *Category must be specified.
+            </p>
+            <!--Song Rating-->
+            <div class="d-flex flex-row align-items-baseline mb-3">
+                <label for="SongRating" class="form-label col-3 text-white">Rating</label>
+                <input type="number" class="form-control bg-dark text-white" [(ngModel)]="SongRating" name="SongRating" id="SongRating"
+                    required min="1" max="5" #ratingV="ngModel">
+            </div>
+            <p *ngIf="ratingV.invalid && (ratingV.dirty || ratingV.touched)" class="text-danger"> 
+                *Rating must be between 1 and 5.
+            </p>
+            <!--Song Url-->
+            <div class="d-flex flex-row align-items-baseline mb-3">
+                <label for="SongUrl" class="form-label col-3 text-white">Url</label>
+                <input type="text" class="form-control bg-dark text-white" [(ngModel)]="SongUrl" name="SongUrl" id="SongUrl"
+                    maxlength="200" #urlV="ngModel">
+            </div>
+            <p *ngIf="urlV.invalid && (urlV.dirty || urlV.touched)" class="text-danger"> 
+                *Url cannot contain more than 200 characters.
+            </p>
+            <!--Song Date Added-->
+            <div class="d-flex flex-row align-items-baseline mb-3" *ngIf="childComponentAdd===false">
+                <label for="SongDateAdded" class="form-label col-3 text-white">Date Added</label>
+                <input type="text" class="form-control bg-secondary text-white" name="SongDateAdded" id="SongDateAdded" disabled value="{{SongDateAdded}}">
+            </div>
+            <!--Song Date Edited-->
+            <div class="d-flex flex-row align-items-baseline mb-3" *ngIf="childComponentAdd===false">
+                <label for="SongDateEdited" class="form-label col-3 text-white">Last Edited</label>
+                <input type="text" class="form-control bg-secondary text-white" name="SongDateEdited" id="SongDateEdited" disabled value="{{SongDateEdited}}">
+            </div>
+            <!--Buttons-->
+            <div class="d-flex justify-content-center">
+                <button [disabled]="nameV.invalid || artistV.invalid || CategoryV.invalid || ratingV.invalid || urlV.invalid"
+                    (click)="addSong()" *ngIf="childComponentAdd===true" class="btn btn-primary">
+                    Add
+                </button>
+                <button [disabled]="nameV.invalid || artistV.invalid || CategoryV.invalid || ratingV.invalid || urlV.invalid
+                || !(nameV.dirty || favV.dirty || artistV.dirty || CategoryV.dirty || ratingV.dirty || urlV.dirty)"
+                    (click)="updateSong()" *ngIf="childComponentAdd===false" class="btn btn-primary">
+                    Update
+                </button>
             </div>
         </div>
-        <!--Song Artist-->
-        <div class="d-flex flex-row align-items-baseline mb-3">
-            <label for="SongArtist" class="form-label col-3">Artist</label>
-            <input type="text" class="form-control" [(ngModel)]="SongArtist" name="SongArtist" id="SongArtist"
-                required maxlength="200" #artistV="ngModel">
-        </div>
-        <p *ngIf="artistV.invalid && (artistV.dirty || artistV.touched)" class="text-danger"> 
-            *Name must contain between 1 and 200 characters.
-        </p>
-        <!--Song Category-->
-        <div class="d-flex flex-row align-items-baseline mb-3">
-            <label for="SongCategory" class="form-label col-3">Category</label>
-            <select required class="form-control" name="SongCategoryId" id="SongCategoryId" [(ngModel)]="categoryNg"
-                #CategoryV="ngModel">
-                <option *ngFor="let item of SongCategoriesList" [ngValue]="item">{{item.name}}</option>
-            </select>
-        </div>
-        <p *ngIf="CategoryV.invalid && (CategoryV.dirty || CategoryV.touched)" class="text-danger"> 
-            *Category must be specified.
-        </p>
-        <!--Song Rating-->
-        <div class="d-flex flex-row align-items-baseline mb-3">
-            <label for="SongRating" class="form-label col-3">Rating</label>
-            <input type="number" class="form-control" [(ngModel)]="SongRating" name="SongRating" id="SongRating"
-                required min="1" max="5" #ratingV="ngModel">
-        </div>
-        <p *ngIf="ratingV.invalid && (ratingV.dirty || ratingV.touched)" class="text-danger"> 
-            *Rating must be between 1 and 5.
-        </p>
-        <!--Song Url-->
-        <div class="d-flex flex-row align-items-baseline mb-3">
-            <label for="SongUrl" class="form-label col-3">Url</label>
-            <input type="text" class="form-control" [(ngModel)]="SongUrl" name="SongUrl" id="SongUrl"
-                maxlength="200" #urlV="ngModel">
-        </div>
-        <p *ngIf="urlV.invalid && (urlV.dirty || urlV.touched)" class="text-danger"> 
-            *Url cannot contain more than 200 characters.
-        </p>
-        <!--Song Date Added-->
-        <div class="d-flex flex-row align-items-baseline mb-3" *ngIf="childComponentAdd===false">
-            <label for="SongDateAdded" class="form-label col-3">Date Added</label>
-            <input type="text" class="form-control" name="SongDateAdded" id="SongDateAdded" disabled value="{{SongDateAdded}}">
-        </div>
-        <!--Song Date Edited-->
-        <div class="d-flex flex-row align-items-baseline mb-3" *ngIf="childComponentAdd===false">
-            <label for="SongDateEdited" class="form-label col-3">Last Edited</label>
-            <input type="text" class="form-control" name="SongDateEdited" id="SongDateEdited" disabled value="{{SongDateEdited}}">
-        </div>
-        <!--Buttons-->
-        <div class="d-flex justify-content-center">
-            <button [disabled]="nameV.invalid || artistV.invalid || CategoryV.invalid || ratingV.invalid || urlV.invalid"
-                (click)="addSong()" *ngIf="childComponentAdd===true" class="btn btn-primary">
-                Add
-            </button>
-            <button [disabled]="nameV.invalid || artistV.invalid || CategoryV.invalid || ratingV.invalid || urlV.invalid
-            || !(nameV.dirty || favV.dirty || artistV.dirty || CategoryV.dirty || ratingV.dirty || urlV.dirty)"
-                (click)="updateSong()" *ngIf="childComponentAdd===false" class="btn btn-primary">
-                Update
-            </button>
-        </div>
+    </form>
     </div>
-</form>
+</div>

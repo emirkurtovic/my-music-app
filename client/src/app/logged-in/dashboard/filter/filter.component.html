@@ -2,32 +2,32 @@
     <div class="mb-3">
         <!--Song Fav-->
         <div class="d-flex flex-row align-items-baseline mb-3">
-            <label for="SongFav" class="form-check-label col-3">Favorite</label>
+            <label for="SongFav" class="form-check-label col-3 text-white">Favorite</label>
             <div>
-            <input type="checkbox" class="form-check-input" name="SongFav" id="SongFav" [(ngModel)]="SongFav"
+            <input type="checkbox" class="form-check-input bg-dark" style="border-color:white" name="SongFav" id="SongFav" [(ngModel)]="SongFav"
                 #favV="ngModel">
             </div>
         </div>
         <!--Song Artists-->
         <div class="d-flex flex-row align-items-baseline mb-3">
-            <label for="SongArtist" class="form-label col-3">Artist</label>
-            <select required class="form-control" name="SongArtistId" id="SongArtistId" [(ngModel)]="artistNg"
+            <label for="SongArtist" class="form-label col-3 text-white">Artist</label>
+            <select required class="form-control bg-dark text-white" name="SongArtistId" id="SongArtistId" [(ngModel)]="artistNg"
                 #artistV="ngModel">
-                <option *ngFor="let item of ArtistsList" [ngValue]="item">{{item}}</option>
+                <option *ngFor="let item of ArtistsList" [ngValue]="item" class="text-white">{{item}}</option>
             </select>
         </div>
         <!--Song Category-->
         <div class="d-flex flex-row align-items-baseline mb-3">
-            <label for="SongCategory" class="form-label col-3">Category</label>
-            <select required class="form-control" name="SongCategoryId" id="SongCategoryId" [(ngModel)]="categoryNg"
+            <label for="SongCategory" class="form-label col-3 text-white">Category</label>
+            <select required class="form-control bg-dark text-white" name="SongCategoryId" id="SongCategoryId" [(ngModel)]="categoryNg"
                 #CategoryV="ngModel">
-                <option *ngFor="let item of SongCategoriesList" [ngValue]="item">{{item.name}}</option>
+                <option *ngFor="let item of SongCategoriesList" [ngValue]="item" class="text-white">{{item.name}}</option>
             </select>
         </div>
         <!--Song Rating-->
         <div class="d-flex flex-row align-items-baseline mb-3">
-            <label for="SongRating" class="form-label col-3">Rating >=</label>
-            <input type="number" class="form-control" [(ngModel)]="SongRating" name="SongRating" id="SongRating"
+            <label for="SongRating" class="form-label col-3 text-white">Rating >=</label>
+            <input type="number" class="form-control bg-dark text-white" [(ngModel)]="SongRating" name="SongRating" id="SongRating"
                 min="1" max="5" #fRatingV="ngModel">
         </div> 
         <p *ngIf="(fRatingV.invalid && (fRatingV.dirty || fRatingV.touched))" class="text-danger"> 
@@ -41,4 +41,3 @@
         </div>
     </div>
 </form>
-

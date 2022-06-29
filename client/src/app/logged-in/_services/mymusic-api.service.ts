@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/comm
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { CustomHttpParamEncoder } from '../_models/custom-encoder';
 import { PaginatedResult } from '../_models/pagination';
 
 @Injectable({
@@ -17,7 +18,9 @@ export class MymusicApiService {
   getSongsList(pageNumber:number|undefined,searchString:string|null,favorite:number,
     artist:string|null,category:string|null,rating:number)
     :Observable<PaginatedResult<any>>{
-    let _params = new HttpParams();
+    
+    let _params = new HttpParams({encoder: new CustomHttpParamEncoder()});
+
     if(pageNumber!=undefined) _params=_params.append('CurrentPage',String(pageNumber));
     if(searchString!=null) _params=_params.append('searchString',searchString);
     _params=_params.append('favorite',String(favorite));
