@@ -46,7 +46,6 @@ export class DashboardComponent implements OnInit {
   modalRef2?: BsModalRef;
   SelectedSong:any;
 
-
   constructor(private service: MymusicApiService,private modalService: BsModalService,private toastrService:ToastrService) { }
 
   ngOnInit(): void {

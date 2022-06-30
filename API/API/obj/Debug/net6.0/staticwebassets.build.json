@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "j2wYshF34y0InqVtV5W/ZdnrL0wxV8UHRuWSFei5kUA=",
+  "Hash": "CDp/g91YOQmiDmA3k2uiUCMfLrB2xbspXo+sC3nFXS0=",
   "Source": "API",
   "BasePath": "_content/API",
   "Mode": "Default",
@@ -34,12 +34,12 @@
       "OriginalItemSpec": "wwwroot\\3rdpartylicenses.txt"
     },
     {
-      "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\879.ce7b80fada9fabaf.js",
+      "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\879.e1bac871117fa35f.js",
       "SourceId": "API",
       "SourceType": "Discovered",
       "ContentRoot": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\",
       "BasePath": "_content/API",
-      "RelativePath": "879.ce7b80fada9fabaf.js",
+      "RelativePath": "879.e1bac871117fa35f.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -48,7 +48,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\879.ce7b80fada9fabaf.js"
+      "OriginalItemSpec": "wwwroot\\879.e1bac871117fa35f.js"
     },
     {
       "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\assets\\b1.jpg",
@@ -153,12 +153,12 @@
       "OriginalItemSpec": "wwwroot\\polyfills.c37d5dc6edc1b20e.js"
     },
     {
-      "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\runtime.e21a7292c5273173.js",
+      "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\runtime.0d20aea2738c9e0f.js",
       "SourceId": "API",
       "SourceType": "Discovered",
       "ContentRoot": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\",
       "BasePath": "_content/API",
-      "RelativePath": "runtime.e21a7292c5273173.js",
+      "RelativePath": "runtime.0d20aea2738c9e0f.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -167,7 +167,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\runtime.e21a7292c5273173.js"
+      "OriginalItemSpec": "wwwroot\\runtime.0d20aea2738c9e0f.js"
     },
     {
       "Identity": "E:\\ZADACI PROGRAMIRANJE\\MyMusicApp\\API\\API\\wwwroot\\styles.fa74d77339736b10.css",

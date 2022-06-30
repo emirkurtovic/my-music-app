@@ -15,3 +15,13 @@ After running .NET app you can also run the Angular app by executing the command
 ## Features
 
 All features are implemented (10 songs are displayed per page and LoggedInModule is lazy-loaded). Login with `username:emir` and `password:1234` to see sample data.
+
+## Possible improvements
+
+1. Caching (using Map); Disable updating, filtering and searching if inputs are changed and then returned to initial values.
+2. Use ASP.NET Identity; Detailed analysis of security - currently CSRF, SQL Injection and XSS attacks are slightly analyzed.
+3. Better UI; Handle categories, artists, favorites and searching better.
+4. Code organization - use classes and interfaces on the client-side, and repository pattern on the server-side.
+5. URL - make logged-in starting route be `/` instead of `/dashboard`.
+6. Maybe set the primary key for songs over name and artist fields (and URL?).
+7. ...
