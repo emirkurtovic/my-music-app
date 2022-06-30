@@ -18,7 +18,7 @@ All features are implemented (10 songs are displayed per page and LoggedInModule
 
 ## Possible improvements
 
-1. Caching (using Map); Disable updating, filtering and searching if inputs are changed and then returned to initial values.
+1. Caching; Disable updating, filtering and searching if inputs are changed and then returned to initial values.
 2. Use ASP.NET Identity; Detailed analysis of security - currently CSRF, SQL Injection and XSS attacks are slightly analyzed.
 3. Better UI; Handle categories, artists, favorites and searching better.
 4. Code organization - use classes and interfaces on the client-side, and repository pattern on the server-side.
