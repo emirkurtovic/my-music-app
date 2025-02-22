@@ -1,6 +1,8 @@
-﻿namespace API.Persistence.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace API.Persistence.Models
 {
-    public enum SongCategory
+    public enum DbSongCategory
     {
         Pop,
         Rock,

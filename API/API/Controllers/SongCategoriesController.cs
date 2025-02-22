@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using API.Data;
-using API.Models;
+using API.Persistence.Models;
 
 namespace API.Controllers
 {
@@ -11,19 +8,13 @@ namespace API.Controllers
     [ApiController]
     public class SongCategoriesController : ControllerBase
     {
-        private readonly AppDbContext _context;
-
-        public SongCategoriesController(AppDbContext context)
-        {
-            _context = context;
-        }
         [Authorize]    
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SongCategory>>> GetCategories()
+        public ActionResult<IEnumerable<string>> GetCategories()
         {
             try
             {
-                return await _context.SongCategories.ToListAsync();
+                return Enum.GetNames<SongCategory>();
             }
             catch
             {

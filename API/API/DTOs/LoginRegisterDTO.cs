@@ -7,12 +7,12 @@ namespace API.DTOs
         [Required]
         [StringLength(20, MinimumLength = 4)]
         [RegularExpression(@"^[a-zA-Z0-9]+$")]
-        public string username { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [StringLength(25, MinimumLength = 4)]
         [RegularExpression(@"^[a-zA-Z0-9%~!@#=&_:;,`\$\^\*\+\|]+$")]
-        public string password { get; set; }
+        public string Password { get; set; }
         //Special characters (~!@#$%^&*_-+=`|\(){}[]:;'<>,.?/)
     }
 }

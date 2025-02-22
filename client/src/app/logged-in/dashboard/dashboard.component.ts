@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { PaginatedResult, Pagination } from '../_models/pagination';
 import { MymusicApiService } from '../_services/mymusic-api.service';
+import { FilterComponentFilterData } from './filter/filter.component';
+import { SongOutputDTO } from '../_models/song';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,20 +16,20 @@ export class DashboardComponent implements OnInit {
   
   //filteri i paging
   searchString!:string|null;
-  favorite:number=0;
+  favorite:boolean = false;
   artist!:string|null;
   category!:string|null;
   rating:number=1;
   
   //api results;
-  SongsList!:any[];
+  SongsList!:SongOutputDTO[];
   pagination!:Pagination;
   sub!: Subscription;
   sub2!: Subscription;
   sub3!: Subscription;
 
   ///
-  SongCategoriesList!:any[];
+  SongCategoriesList!:string[];
   ArtistsList!:any[];
 
   childComponentOpen:boolean=false;
@@ -124,12 +126,14 @@ export class DashboardComponent implements OnInit {
     this.refreshSongsAndArtists();
   }
 
-  closeFilterModal(event:any){
+  closeFilterModal(event:FilterComponentFilterData){
     this.childComponentOpen2=false;
     this.modalRef2?.hide();
     this.favorite=event.favorite;
     this.artist=event.artist;
-    if(event.category) this.category=event.category.name;
+    if(event.category){
+      this.category=event.category;
+    }
     this.rating=event.rating;
     //console.log("favorite" + this.favorite);
     this.search();
@@ -137,7 +141,7 @@ export class DashboardComponent implements OnInit {
   
   clearFilters(){
     this.searchString=null;
-    this.favorite=0;
+    this.favorite=false;
     this.artist=null;
     this.category=null;
     this.rating=1;

@@ -1,5 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
+export type FilterComponentFilterData = {
+  favorite: boolean;
+  artist:string;
+  category:string;
+  rating:number;
+}
+
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
@@ -7,22 +14,19 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class FilterComponent implements OnInit {
 
-  ////////////////////
+  //#region Inputs & Outputs
   @Input() SongCategoriesList!:any[];
   @Input() ArtistsList!:any[];
   @Input() SongArtist!:string|null;
-  @Input() SongFav!:number;
+  @Input() SongFav!:boolean;
   @Input() SongCategoryName!:string|null;
-  @Input() SongRating!:number|null;
+  @Input() SongRating!:number;
 
-  @Output() openedEvent=new EventEmitter<any>();
-
-  //
-
+  @Output() onApplyEvent=new EventEmitter<any>();
+  //#endregion
+  
   categoryNg:any;
   artistNg:any;
-
-  ////////////////////
 
   constructor() { }
 
@@ -31,6 +35,12 @@ export class FilterComponent implements OnInit {
     this.categoryNg=this.SongCategoriesList.find(x=>x.name==this.SongCategoryName);
   }
   apply(){
-    this.openedEvent.emit({favorite:Number(this.SongFav),artist:this.artistNg,category:this.categoryNg,rating:this.SongRating});
+    const filterData:FilterComponentFilterData ={
+      favorite:this.SongFav,
+      artist:this.artistNg,
+      category:this.categoryNg,
+      rating:this.SongRating
+    }
+    this.onApplyEvent.emit(filterData);
   }
 }

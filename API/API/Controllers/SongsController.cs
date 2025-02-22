@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using API.Data;
 using API.DTOs;
-using API.Extensions;
-using API.Helpers;
+using System.ComponentModel.DataAnnotations;
+using API.Interfaces.Services;
+using API.Utils.Extensions;
 using API.Models;
-using System.Linq;
-using System.Security.Claims;
+using API.Interfaces.Repositories;
 
 namespace API.Controllers
 {
@@ -16,43 +14,33 @@ namespace API.Controllers
     [ApiController]
     public class SongsController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        public SongsController(AppDbContext context)
+        private readonly IUserClaimsService _userClaimsService;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public SongsController(IUserClaimsService userClaimsService, IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _userClaimsService = userClaimsService;
+            _unitOfWork = unitOfWork;
         }
         
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<object>>> GetSongs([FromQuery] UserParams userParams)
+        public async Task<ActionResult<IEnumerable<SongOutputDTO>>> GetSongs([FromQuery] SongsFilterDTO songsFilterDTO)
         {
             try
             {
-                //1st access - get totalCount
-                var username = GetCurrentUsername();
+                var username = _userClaimsService.GetCurrentUsername();
+                var getFilteredSongsResult = await _unitOfWork.SongRepository.GetFilteredSongs(songsFilterDTO, username);
+                if (getFilteredSongsResult.error)
+                {
+                    return BadRequest();
+                }
 
-                var query = _context.Songs.AsQueryable();
-                query = query.Where(x => x.User.Name.Equals(username));
+                var songs = await getFilteredSongsResult.songs.Include(s => s.User).Select(s => s.ToSong().ToOutputDTO()).ToListAsync();
 
-                //filteri
-                if (userParams.searchString != null) query = query.Where(x => x.Name.ToLower().StartsWith(userParams.searchString.ToLower()));
-                if (userParams.favorite != 0) query = query.Where(x => x.Favorite.Equals(userParams.favorite));
-                if (userParams.artist != null) query = query.Where(x => x.Artist.Equals(userParams.artist));
-                if (userParams.category != null) query = query.Where(x => x.SongCategory.Name.Equals(userParams.category));
-                query = query.Where(x => x.Rating >= userParams.rating);
+                Response.AddPaginationHeader(songsFilterDTO.CurrentPage, getFilteredSongsResult.totalPageCount, songsFilterDTO.PageSize, getFilteredSongsResult.totalSongsCount);
 
-                var totalCount = await query.CountAsync();
-
-                //2st access - get items + pagination header
-                var totalPages = (int)Math.Ceiling(totalCount / (double)userParams.PageSize);
-                var items = await query.OrderByDescending(x => x.DateEdited).ThenBy(x=>x.Id)
-                    .Skip((userParams.CurrentPage - 1) * userParams.PageSize).Take(userParams.PageSize)
-                    .Select(x => new { Song = x, CategoryName = x.SongCategory.Name }).ToListAsync();
-
-                Response.AddPaginationHeader(userParams.CurrentPage, totalPages, userParams.PageSize, totalCount);
-
-                return items;
-
+                return songs;
             }
             catch
             {
@@ -62,27 +50,22 @@ namespace API.Controllers
 
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSong(int id, SongDTO songDTO)
+        public async Task<IActionResult> PutSong(int id, SongInputDTO songDTO)
         {
             try
             {
-                if (id != songDTO.Id) return BadRequest();
-                var song = await _context.Songs.SingleOrDefaultAsync(x => x.Id == songDTO.Id);
-                if (song == null) return BadRequest();
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == song.UserId);
-                if (user == null) return BadRequest();
-                var username = GetCurrentUsername();
-                if (user.Name != username) return Unauthorized("You are not authorized to modify this song!");
-                song.Name = songDTO.Name;
-                song.Artist = songDTO.Artist;
-                song.Url = songDTO.Url;
-                song.Rating = songDTO.Rating;
-                song.Favorite = songDTO.Favorite;
-                song.SongCategoryId = songDTO.SongCategoryId;
-                //song.DateEdited = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
-                song.DateEdited = DateTime.UtcNow;
-                _context.Entry(song).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
+                var username = _userClaimsService.GetCurrentUsername();
+
+                var updateSongResult = await _unitOfWork.SongRepository.UpdateSong(id, songDTO, username);
+                if (updateSongResult == UpdateSongResultType.BadRequest)
+                {
+                    return BadRequest();
+                }
+                else if (updateSongResult == UpdateSongResultType.Unauthorized)
+                {
+                    return Unauthorized("You are not authorized to modify this song!");
+                }
+
                 return NoContent();
             }
             catch
@@ -93,26 +76,17 @@ namespace API.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<Song>> PostSong(SongDTO songDTO)
+        public async Task<IActionResult> PostSong(SongInputDTO songDTO)
         {
             try
             {
-                var username = GetCurrentUsername();
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.Name == username);
-                if (user == null) return Unauthorized("You are not authorized to add this song!");
-                //ne bi trebalo da se moze desiti jer je vec prosao authentikaciju - osim ako nije nekako u bazi pogresno upisano
-                var song = new Song
+                var username = _userClaimsService.GetCurrentUsername();
+                var success = await _unitOfWork.SongRepository.AddSong(songDTO, username);
+                if (!success)
                 {
-                    Name = songDTO.Name,
-                    Artist = songDTO.Artist,
-                    Url = songDTO.Url,
-                    Rating = songDTO.Rating,
-                    Favorite = songDTO.Favorite,
-                    SongCategoryId=songDTO.SongCategoryId,
-                    UserId = user.Id
-                };
-                _context.Songs.Add(song);
-                await _context.SaveChangesAsync();
+                    return BadRequest();
+                }
+
                 return NoContent();
             }
             catch
@@ -127,14 +101,22 @@ namespace API.Controllers
         {
             try
             {
-                var song = await _context.Songs.SingleOrDefaultAsync(x => x.Id == id);
-                if (song == null) return NotFound();
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == song.UserId);
-                if (user == null) return BadRequest();
-                var username = GetCurrentUsername();
-                if (user.Name != username) return Unauthorized("You are not authorized to delete this song!");
-                _context.Songs.Remove(song);
-                await _context.SaveChangesAsync();
+                var username = _userClaimsService.GetCurrentUsername();
+                var deleteSongResult = await _unitOfWork.SongRepository.DeleteSong(id, username);
+
+                if (deleteSongResult == DeleteSongResultType.NotFound)
+                {
+                    return NotFound();
+                }
+                else if (deleteSongResult == DeleteSongResultType.BadRequest)
+                {
+                    return BadRequest();
+                }
+                else if (deleteSongResult == DeleteSongResultType.Unauthorized)
+                {
+                    return Unauthorized("You are not authorized to delete this song!");
+                }
+
                 return NoContent();
             }
             catch
@@ -142,17 +124,27 @@ namespace API.Controllers
                 return BadRequest();
             }
         }
+    }
 
-        private string GetCurrentUsername()
-        {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            if (identity != null)
-            {
-                var userClaims = identity.Claims;
-                return userClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            }
-            return null;
-        }
-
+    public class SongsFilterDTO
+    {
+        [StringLength(200)]
+        public string SearchString { get; set; }
+        
+        public bool Favorite { get; set; }
+        
+        [StringLength(200)]
+        public string Artist { get; set; }
+        
+        public string SongCategory { get; set; }
+        
+        [Range(1, 5)]
+        public int Rating { get; set; }
+       
+        [Range(1, int.MaxValue)]
+        public int CurrentPage { get; set; } = 1;
+        
+        [Range(1, int.MaxValue)]
+        public int PageSize { get => 10; }
     }
 }

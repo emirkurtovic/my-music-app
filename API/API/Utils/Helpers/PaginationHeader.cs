@@ -1,4 +1,4 @@
-﻿namespace API.Helpers
+﻿namespace API.Utils.Helpers
 {
     public class PaginationHeader
     {
@@ -13,6 +13,6 @@
         public int TotalPages { get; set; }
         public int PageSize { get; set; }
         public int TotalCount { get; set; }
-        
+
     }
 }

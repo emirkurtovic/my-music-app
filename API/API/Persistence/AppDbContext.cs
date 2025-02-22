@@ -1,15 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using API.Models;
+using API.Persistence.Models;
 
-namespace API.Data
+namespace API.Persistence
 {
     public class AppDbContext:DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
-        public DbSet<Song> Songs { get; set; }
-        public DbSet<SongCategory> SongCategories { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<DbSong> Songs { get; set; }
+        public DbSet<DbUser> Users { get; set; }
     }
 }

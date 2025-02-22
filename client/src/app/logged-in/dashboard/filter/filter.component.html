@@ -19,9 +19,9 @@
         <!--Song Category-->
         <div class="d-flex flex-row align-items-baseline mb-3">
             <label for="SongCategory" class="form-label col-3 text-white">Category</label>
-            <select required class="form-control bg-dark text-white" name="SongCategoryId" id="SongCategoryId" [(ngModel)]="categoryNg"
+            <select required class="form-control bg-dark text-white" name="SongCategory" id="SongCategory" [(ngModel)]="categoryNg"
                 #CategoryV="ngModel">
-                <option *ngFor="let item of SongCategoriesList" [ngValue]="item" class="text-white">{{item.name}}</option>
+                <option *ngFor="let item of SongCategoriesList" [ngValue]="item" class="text-white">{{item}}</option>
             </select>
         </div>
         <!--Song Rating-->

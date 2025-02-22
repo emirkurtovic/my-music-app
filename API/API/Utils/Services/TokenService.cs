@@ -2,20 +2,19 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using API.Models;
+using API.Persistence.Models;
 
-namespace API.Services
+namespace API.Utils.Services
 {
     public class TokenService
     {
-        //posto ne mora napustiti  server
-        private readonly SymmetricSecurityKey _key;
+        private readonly SymmetricSecurityKey _key; // since it doesn't have to leave the server
 
         public TokenService(IConfiguration config)
         {
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
         }
-        public string CreateToken(User user)
+        public string CreateToken(DbUser user)
         {
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
             var claims = new List<Claim>

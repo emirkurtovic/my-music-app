@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { findIndex, Subscription } from 'rxjs';
 import { MymusicApiService } from '../../_services/mymusic-api.service';
+import { SongInputDTO, SongOutputDTO } from '../../_models/song';
 
 @Component({
   selector: 'app-add-edit-song',
@@ -11,26 +12,15 @@ import { MymusicApiService } from '../../_services/mymusic-api.service';
 })
 export class AddEditSongComponent implements OnInit {
 
-  ////////////////////
-  @Input() SongCategoriesList!:any[];
+  //#region Inputs & Outputs
+  @Input() SongCategoriesList!:string[];
   @Input() childComponentAdd:any=true;
-  @Input() SelectedSong:any;
+  @Input() SelectedSong!:SongOutputDTO;
   @Output() openedEvent=new EventEmitter<boolean>();
+  //#endregion
 
-  //atributi
-  SongId:number=0;
-  SongName:string="";
-  SongFav:number=0;
-  SongArtist:string="";
-  SongCategoryId!:number;
-  SongCategoryName:string="";
-  SongRating:number=1;
-  SongUrl:string="";
-  SongDateAdded:string="";
-  SongDateEdited:string="";
+  songNg : SongOutputDTO = {id: 0, name:"", favorite: false, artist:"", songCategory:"", rating:1, url:"", dateAdded:"",dateEdited:""};
 
-  categoryNg:any;
-  
   sub!: Subscription;
   sub2!:Subscription;
   
@@ -45,28 +35,22 @@ export class AddEditSongComponent implements OnInit {
     this.setCurrentStyles();
     this.setCurrentClasses();
     if(this.childComponentAdd===false){
-      //console.log(this.SelectedSong);
-      this.SongId=this.SelectedSong.song.id;
-      this.SongName=this.SelectedSong.song.name;
-      this.SongFav=this.SelectedSong.song.favorite;
-      this.SongArtist=this.SelectedSong.song.artist;
-      this.SongCategoryId=this.SelectedSong.song.categoryid;
-      this.SongCategoryName=this.SelectedSong.categoryName;
-      this.SongRating=this.SelectedSong.song.rating;
-      this.SongUrl=this.SelectedSong.song.url;
+      
+      this.songNg.id=this.SelectedSong.id;
+      this.songNg.name=this.SelectedSong.name;
+      this.songNg.favorite=this.SelectedSong.favorite;
+      this.songNg.artist=this.SelectedSong.artist;
+      this.songNg.songCategory=this.SelectedSong.songCategory;
+      this.songNg.rating=this.SelectedSong.rating;
+      this.songNg.url=this.SelectedSong.url ?? "";
 
-      //console.log("date added "+ this.SelectedSong.song.dateAdded);
-      //console.log("date edited "+ this.SelectedSong.song.dateEdited);
-
-      //posto za sqllite izgleda ne radi DateTimeKind, ovdje cemo dodati Z - za UTC
-
-      var date= new Date(this.SelectedSong.song.dateAdded+"Z");
-      this.SongDateAdded=date.toLocaleString();
+      var date= new Date(this.SelectedSong.dateAdded);
+      this.songNg.dateAdded=date.toLocaleString();
     
-      date= new Date(this.SelectedSong.song.dateEdited+"Z");
-      this.SongDateEdited=date.toLocaleString();
+      date= new Date(this.SelectedSong.dateEdited);
+      this.songNg.dateEdited=date.toLocaleString();
      
-      this.categoryNg=this.SongCategoriesList.find(x=>x.name==this.SelectedSong.categoryName);
+      this.songNg.songCategory=this.SongCategoriesList.find(x=>x==this.SelectedSong.songCategory)!;
     }
     else{
       this.loadCategories();
@@ -82,17 +66,16 @@ export class AddEditSongComponent implements OnInit {
   }
 
   updateSong(){
-    var song={
-      Id:this.SongId,
-      Name:this.SongName,
-      Artist:this.SongArtist,
-      Url:this.SongUrl,
-      Rating:this.SongRating,
-      Favorite:Number(this.SongFav),
-      SongCategoryId:this.categoryNg.id
+    var song: SongInputDTO={
+      name:this.songNg.name,
+      artist:this.songNg.artist,
+      url:this.songNg.url,
+      rating:this.songNg.rating,
+      favorite:this.songNg.favorite,
+      songCategory:this.songNg.songCategory
     };
     //console.log("update info:"+ song.Favorite);
-    this.sub=this.service.updateSong(Number(this.SongId),song).subscribe({
+    this.sub=this.service.updateSong(Number(this.songNg.id),song).subscribe({
       next: (res)=>{
         this.toastService.success("Song Updated Successfully!");
         this.openedEvent.emit(false);
@@ -110,13 +93,13 @@ export class AddEditSongComponent implements OnInit {
   }
 
   addSong(){
-    var song={
-      Name:this.SongName,
-      Artist:this.SongArtist,
-      Url:this.SongUrl,
-      Rating:this.SongRating,
-      Favorite:Number(this.SongFav),
-      SongCategoryId:this.categoryNg.id
+    var song: SongInputDTO={
+      name:this.songNg.name,
+      artist:this.songNg.artist,
+      url:this.songNg.url,
+      rating:this.songNg.rating,
+      favorite:this.songNg.favorite,
+      songCategory: this.songNg.songCategory
     };
     //console.log(song);
     this.sub2=this.service.addSong(song).subscribe({

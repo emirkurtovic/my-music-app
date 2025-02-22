@@ -1,65 +1,38 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using API.Data;
-using API.Services;
+using API.Persistence;
 using System.Text;
+using API.Interfaces.Services;
+using API.Utils.Services;
+using API.Interfaces.Repositories;
+using API.Persistence.Repositories;
 
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var _allowLocalSPADevServerCorsPolicy = "allowLocalSPADevServerCorsPolicy";
+var _localSPADevServer = "http://localhost:4200";
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-    string connStr;
-
-    // Depending on if in development or production, use either Heroku-provided
-    // connection string, or development connection string from env var.
-    if (env == "Development")
-    {
-        // Use connection string from file.
-        connStr = builder.Configuration.GetConnectionString("DefaultConnection");
-        options.UseSqlite(connStr);
-    }
-    else
-    {
-        // Use connection string provided at runtime by Heroku.
-        var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-
-        // Parse connection URL to connection string for Npgsql
-        connUrl = connUrl.Replace("postgres://", string.Empty);
-        var pgUserPass = connUrl.Split("@")[0];
-        var pgHostPortDb = connUrl.Split("@")[1];
-        var pgHostPort = pgHostPortDb.Split("/")[0];
-        var pgDb = pgHostPortDb.Split("/")[1];
-        var pgUser = pgUserPass.Split(":")[0];
-        var pgPass = pgUserPass.Split(":")[1];
-        var pgHost = pgHostPort.Split(":")[0];
-        var pgPort = pgHostPort.Split(":")[1];
-
-        connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};SSL Mode=Require;TrustServerCertificate=True";
-        options.UseNpgsql(connStr);
-    }
-    
+    var connectionString = builder.Environment.IsDevelopment() ?
+        builder.Configuration.GetConnectionString("DefaultConnection") : Environment.GetEnvironmentVariable("DATABASE_STR");
+    options.UseNpgsql(connectionString);
 });
-//enable CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      builder =>
-                      {
-                          builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
-                      });
+    options.AddPolicy
+    (
+        name: _allowLocalSPADevServerCorsPolicy,
+        builder => builder.WithOrigins(_localSPADevServer).AllowAnyHeader().AllowAnyMethod()
+    );
 });
-//dodati service za token
+
+// Register services required for authentication and authorization
 builder.Services.AddScoped<TokenService>();
-//authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
     AddJwtBearer(options =>
     {
@@ -72,12 +45,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
         };
     });
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUserClaimsService, UserClaimsService>();
+
+builder.Services.AddScoped<ISongRepository, SongRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 var app = builder.Build();
-//error za postgres, kod datetime
-//AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-//
-//////////////////////////////////////
-//////////////////////////////////////
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -88,16 +63,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors(MyAllowSpecificOrigins);
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors(_allowLocalSPADevServerCorsPolicy);
+}
 
-app.UseAuthentication();
+app.UseAuthentication(); // necessary for identifying the user and providing ClaimsPortal used by authorization
+app.UseAuthorization(); // necessary for authorization ([Authorize] without parameters, authorizes identified users)
 
-app.UseAuthorization();
-//za serviranje Angular file-ova
+// serve Angular files
 app.UseDefaultFiles();
-
 app.UseStaticFiles();
-//
+
 app.MapControllers();
 
 app.MapFallbackToController("Index", "Fallback");
