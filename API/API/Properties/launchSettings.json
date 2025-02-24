@@ -26,6 +26,15 @@
       },
       "applicationUrl": "https://localhost:7266;http://localhost:5266",
       "dotnetRunMessages": true
+    },
+    "API-production": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      },
+      "applicationUrl": "https://localhost:7266;http://localhost:5266",
+      "dotnetRunMessages": true
     }
   }
 }
