@@ -1,5 +1,5 @@
-# My Music App (old internship task - improved a bit)
-
+# My Music App
+- This is an old internship task, slightly improved and hosted on AWS – musicapp.emirlabs.com.
 ## Description (old):
 - My Music App is a web application used for songs management. Backend: ASP.NET 6 Web API. Frontend: Angular 13.
 -   1. Run only .NET app
